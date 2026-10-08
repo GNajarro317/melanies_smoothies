@@ -30,17 +30,17 @@ if ingredients_list:
     for fruit_chosen in ingredients_list:
         ingredients_string += fruit_chosen + ' '
         try:
-                # Make API request to get details about each fruit
-                fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_chosen)
-                fruityvice_response.raise_for_status()
+            # Make API request to get details about each fruit
+            fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + fruit_chosen)
+            fruityvice_response.raise_for_status()
                 
-                if fruityvice_response.status_code == 200:
-                    fv_df = st.dataframe(data=fruityvice_response.json(), use_container_width=True)
-                else:
-                    st.warning(f"Failed to fetch details for {fruit_chosen}")
+            if fruityvice_response.status_code == 200:
+              fv_df = st.dataframe(data=fruityvice_response.json(), use_container_width=True)
+            else:
+            st.warning(f"Failed to fetch details for {fruit_chosen}")
             
-            except requests.exceptions.RequestException as e:
-                st.error(f"Failed to fetch details for {fruit_chosen}: {str(e)}")
+        except requests.exceptions.RequestException as e:
+          st.error(f"Failed to fetch details for {fruit_chosen}: {str(e)}")
               
     my_insert_stmt = """ insert into smoothies.public.orders(ingredients, name_on_order)
                     values ('""" + ingredients_string + """','""" + name_on_order + """')"""
